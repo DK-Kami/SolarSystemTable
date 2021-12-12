@@ -45,9 +45,9 @@
       </template>
 
       <template #item.actions="{ item }">
-        <button class="button button__primary" @click="handleView(item.id)">View</button>
-        <button class="button button__primary" @click="handleEdit(item.id)">Edit</button>
-        <button class="button button__primary" @click="handleDelete(item.id)">Delete</button>
+        <button :disabled="item.isLocal" class="button button__primary" @click="handleView(item.id, item.isLocal)">View</button>
+        <button class="button button__primary" @click="handleEdit(item.id, item.isLocal)">Edit</button>
+        <button class="button button__primary" @click="handleDelete(item.id, item.isLocal)">Delete</button>
       </template>
     </k-table>
   </div>
@@ -142,16 +142,20 @@ export default {
       this.loading = false;
     },
 
+    async handleEdit(id, isLocal) {
+      this.isEdit = true;
+      await this.$store.dispatch('loadBody', { id, isLocal });
+      this.openDialog();
+    },
     handleView(id) {
       this.$router.push({
         name: 'ViewPage',
         params: { id },
       });
     },
-    async handleEdit(id) {
-      this.isEdit = true;
-      await this.$store.dispatch('loadBody', id);
-      this.openDialog();
+    handleDelete(id, isLocal) {
+      this.$store.dispatch('deleteBody', { id, isLocal });
+      this.loadBodies();
     },
     handleCreate() {
       this.isEdit = false;
@@ -163,10 +167,6 @@ export default {
         return this.editBody();
       }
       return this.createBody();
-    },
-    handleDelete(id) {
-      this.$store.dispatch('deleteBody', id);
-      this.loadBodies();
     },
 
     createBody() {

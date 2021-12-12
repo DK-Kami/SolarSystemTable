@@ -25,11 +25,23 @@ export default new Vuex.Store({
     SET_BODY: (state, body) => state.body = body,
 
     ADD_BODY: (state, body) => state.addedBodies.push(body),
-    EDIT_BODY: (state, { id, body }) => {
-      state.bodies.find(b => b.id === id);
+    EDIT_BODY: (state, { id, isLocal, body }) => {
+      let oldBody = {};
+      if (isLocal) {
+        oldBody = state.addedBodies.find(b => b.id === id);
+      }
+      else {
+        oldBody = state.bodies.find(b => b.id === id);
+      }
+
+      Object.assign(oldBody, body);
     },
 
-    DELETE_BODY(state, id) {
+    DELETE_BODY(state, { id, isLocal }) {
+      if (isLocal) {
+        return state.addedBodies = state.addedBodies.filter(b => b.id !== id);
+      }
+
       state.deletedIds.push(id);
       state.bodies.find(b => b.id === id).isDeleted = true;
     },
@@ -49,36 +61,40 @@ export default new Vuex.Store({
       })).data;
 
       const filteredBodies = bodies.map(b => ({...b, isDeleted: state.deletedIds.find(di => di === b.id)}));
-      // if (page && page.split(',')[0] === 1) {
-      //   const { addedBodies } = state;
-      //   filteredBodies.shift(...addedBodies)
-      // }
       commit('SET_BODIES', filteredBodies);
     },
 
-    async loadBody({ commit }, id) {
-      const body = (await webClient.get(`/bodies/${id}`)).data;
-      commit('SET_BODY', body);
+    async loadBody({ commit, state }, { id, isLocal }) {
+      let body = {};
+      if (isLocal) {
+        body = state.addedBodies.find(b => b.id === id);
+      }
+      else {
+        body = (await webClient.get(`/bodies/${id}`)).data;
+      }
+
+      commit('SET_BODY', Object.assign({}, body));
     },
 
     addBody({ commit, state }) {
       const { body } = state;
       commit('ADD_BODY', {
         id: body.name,
-        isDeleted: false,
+        isLocal: true,
         ...body,
       });
     },
     editBody({ commit, state }) {
       const { body } = state;
       commit('EDIT_BODY', {
+        isLocal: body.isLocal,
         id: body.id,
         body,
       });
     },
 
-    deleteBody({ commit }, id) {
-      commit('DELETE_BODY', id);
+    deleteBody({ commit }, { id, isLocal }) {
+      commit('DELETE_BODY', { id, isLocal });
     },
     cleanCurrentBody({ commit }) {
       commit('CLEAN_CURRENT_BODY');
@@ -87,9 +103,9 @@ export default new Vuex.Store({
   getters: {
     getCurrentBody: state => state.body,
     getArchivedBodies: state => state.bodies.filter(body => body.isDeleted),
-    getBodies: state => state.bodies.filter(body => !body.isDeleted),
-    getAllBodies: state => state.bodies,
-    // getBodies: state => [...state.bodies.filter(body => !body.isDeleted), ...state.addedBodies],
-    // getAllBodies: state => [...state.bodies, ...state.addedBodies],
+    // getBodies: state => state.bodies.filter(body => !body.isDeleted),
+    // getAllBodies: state => state.bodies,
+    getBodies: state => [...state.bodies.filter(body => !body.isDeleted), ...state.addedBodies],
+    getAllBodies: state => [...state.bodies, ...state.addedBodies],
   },
 });
