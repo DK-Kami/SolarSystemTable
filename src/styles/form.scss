@@ -19,8 +19,7 @@
 }
 
 /** INPUT */
-input[type="text"],
-input[type="checkbox"] {
+input[type="text"] {
   line-height: 1.8;
 }
 
@@ -44,5 +43,29 @@ select {
       top: 9px;
       border-color: transparent transparent $select-color transparent;
     }
+  }
+}
+
+input[type=checkbox] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+
+  &:after {
+    content: " ";
+    background-color: #44476D;
+    display: inline-block;
+    visibility: visible;
+  }
+
+  &:checked:after {
+    content: "\2714";
+    border-radius: 3px;
+    height: 20px;
+    width: 20px;
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    color: white;
   }
 }

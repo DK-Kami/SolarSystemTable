@@ -12,14 +12,11 @@
     >
 
       <template #actions>
-        <div>
-          <label for="showArchived">Показать удаленные</label>
-          <input v-model="isArchived" type="checkbox" id="showArchived" />
-        </div>
+        <button id="addButton" class="button button__secondary button__outline" @click="handleCreate">Добавить</button>
 
-        <div @click="handleCreate">
-          <button id="addButto" class="button button__secondary button__circle">+</button>
-          <label for="addButton">Добавить</label>
+        <div>
+          <input v-model="isArchived" type="checkbox" id="showArchived" class="checkbox" />
+          <label for="showArchived" style="cursor: pointer; margin: 0 5px">{{ isArchived ? 'Скрыть удаленные' : 'Показать удаленные'}}</label>
         </div>
       </template>
 
@@ -28,9 +25,9 @@
       </template>
 
       <template #item.actions="{ item }">
-        <button :disabled="item.isLocal" class="button button__primary" @click="handleView(item.id, item.isLocal)">View</button>
-        <button class="button button__primary" @click="handleEdit(item.id, item.isLocal)">Edit</button>
-        <button class="button button__primary" @click="handleDelete(item.id, item.isLocal)">Delete</button>
+        <button :disabled="item.isLocal" class="button button__secondary" @click="handleView(item.id, item.isLocal)">Просмотр</button>
+        <button class="button button__secondary" @click="handleEdit(item.id, item.isLocal)">Редактировать</button>
+        <button class="button button__error" @click="handleDelete(item.id, item.isLocal)">Удалить</button>
       </template>
     </k-table>
   </div>
@@ -45,8 +42,8 @@ const dataConfigure = [
   { name: 'name',           width: '20%',  type: 'text',     title: 'Имя космического объекта'},
   { name: 'isPlanet',       width: '20%',  type: 'checkbox', title: 'Является ли планетой'},
   { name: 'discoveredBy',   width: '20%',  type: 'text',     title: 'Кем открыта'},
-  { name: 'discoveryDate',  width: '20%',  type: 'text',     title: 'Дата открытия'},
-  { name: 'actions',        width: '20%',  type: 'none',     title: ''},
+  { name: 'discoveryDate',  width: '15%',  type: 'text',     title: 'Дата открытия'},
+  { name: 'actions',        width: '25%',  type: 'none',     title: ''},
 ]
 
 export default {

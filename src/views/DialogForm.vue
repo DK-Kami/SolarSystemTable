@@ -16,7 +16,7 @@
       </div>
 
       <div class="form-actions">
-        <button class="button" @click="handleSubmit">{{ currentButtonTitle }}</button>
+        <button class="button button__secondary" @click="handleSubmit">{{ currentButtonTitle }}</button>
       </div>
     </div>
   </k-dialog>
