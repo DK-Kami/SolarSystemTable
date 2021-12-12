@@ -1,10 +1,12 @@
 <template>
   <div class="table-container">
-
-    <!-- TODO Вынести отдельно -->
     <div class="table-actions">
       <div>
-        <slot name="actions"></slot>        
+        <slot name="actions"></slot>
+      </div>
+
+      <div>
+        <slot name="center-actions"></slot>
       </div>
 
       <div>
@@ -186,8 +188,7 @@ export default {
   }
 }
 .actions-text {
-  font-size: 15pt;
-  padding: 10px 15px;
+  font-size: 22px;
 }
 
 .table {

@@ -5,7 +5,6 @@
     <k-table
       :tableOptions.sync="tableOptions"
       :items="getCurrentBodies"
-      :loading="loading"
       :headers="headers"
       @refresh="loadBodies"
       @add="openDialog"
@@ -16,6 +15,15 @@
         <div>
           <input v-model="isArchived" type="checkbox" id="showArchived" class="checkbox" />
           <label for="showArchived" style="cursor: pointer; padding: 0 5px">{{ isArchived ? 'Скрыть удаленные' : 'Показать удаленные'}}</label>
+        </div>
+      </template>
+
+      <template #center-actions>
+        <div class="form-item">
+          <label for="planetName">Поиск</label>
+          <div class="input-block">
+            <input v-model="search" type="text" placeholder="Поиск по имени">
+          </div>
         </div>
       </template>
 
@@ -64,10 +72,10 @@ export default {
     dataConfigure,
 
     isArchived: false,
-    loading: false, // TODO сделать загрузку
     dialog: false,
-
     isEdit: false,
+
+    search: '',
 
     tableOptions: {
       rowsPerPage: 20,
@@ -75,7 +83,6 @@ export default {
 
       orderAsc: true,
       orderBy: 'id',
-      filters: [],
     }
   }),
 
@@ -100,8 +107,6 @@ export default {
 
   methods: {
     async loadBodies() {
-      if (this.loading) return;
-      this.loading = true;
       let page = '';
 
       if (this.tableOptions.rowsPerPage !== -1) {
@@ -109,11 +114,9 @@ export default {
       }
       await this.$store.dispatch('loadBodies', {
         order: `${this.tableOptions.orderBy},${this.tableOptions.orderAsc ? 'asc' : 'desc'}`,
-        filter: this.tableOptions.filters,
+        filter: [`name,cs,${this.search}`],
         page,
       });
-
-      this.loading = false;
     },
 
     async handleEdit(id, isLocal) {
@@ -138,6 +141,12 @@ export default {
 
     openDialog() {
       this.dialog = true;
+    },
+  },
+
+  watch: {
+    search() {
+      this.loadBodies();
     },
   },
 };

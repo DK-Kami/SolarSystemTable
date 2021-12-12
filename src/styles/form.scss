@@ -1,21 +1,19 @@
 /** FORM */
-.form {
-  .form-item {
-    display: flex;
-    // flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
+.form-item {
+  display: flex;
+  // flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
 
-    .input-block {
-      min-width: 200px;
-      text-align: left;
-    }
+  .input-block {
+    min-width: 200px;
+    text-align: left;
   }
+}
 
-  .form-actions {
-    padding: 40px 0 0 0;
-  }
+.form-actions {
+  padding: 40px 0 0 0;
 }
 
 /** INPUT */
