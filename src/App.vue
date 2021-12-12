@@ -1,32 +1,91 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <kami-table
+      :tableOptions.sync="tableOptions"
+      :loading="loading"
+      :headers="headers"
+      :items="bodies"
+      @refresh="loadBodies"
+    >
+      <template #item.isPlanet="{ item }">
+        {{ item.isPlanet ? '✓' : 'х' }}
+      </template>
+
+      <template #item.actions="{ item }">
+        <button class="button button__primary">Edit</button>
+        <button class="button button__primary" @click="deleteBody(item.id)">Delete</button>
+      </template>
+    </kami-table>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import KamiTable from './components/KamiTable';
 
-#nav {
-  padding: 30px;
+const headers = [
+  { name: 'name',           title: 'Имя космического объекта'},
+  { name: 'isPlanet',       title: 'Является ли планетой'},
+  { name: 'discoveredBy',   title: 'Кем открыта'},
+  { name: 'discoveryDate',  title: 'Дата открытия'},
+  { name: 'actions',        title: ''},
+]
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+export default {
+  components: { KamiTable },
+  name: 'App',
 
-    &.router-link-exact-active {
-      color: #42b983;
+  created() {
+    this.loadBodies();
+  },
+
+  data: () => ({
+    loading: true,
+    headers,
+
+    tableOptions: {
+      rowsPerPage: 20,
+      page: 1,
+
+      orderAsc: true,
+      orderBy: 'id',
+      filters: [],
     }
-  }
-}
+  }),
+
+  computed: {
+    bodies() {
+      return this.$store.getters['getBodies'];
+    },
+    currentBody() {
+      return this.$store.getters['getCurrentBody'];
+    },
+  },
+
+  methods: {
+    async loadBodies() {
+      this.loading = true;
+
+      let page = '';
+      if (this.tableOptions.rowsPerPage !== -1) {
+        page = `${this.tableOptions.page},${this.tableOptions.rowsPerPage}`;
+      }
+      await this.$store.dispatch('loadBodies', {
+        order: `${this.tableOptions.orderBy},${this.tableOptions.orderAsc ? 'asc' : 'desc'}`,
+        filter: this.tableOptions.filters,
+        page,
+      });
+      this.loading = false;
+    },
+    deleteBody(id) {
+      this.$store.dispatch('deleteBody', id);
+      this.loadBodies();
+    },
+
+  },
+};
+</script>
+
+<style lang="scss">
+
+
 </style>
