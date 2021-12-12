@@ -41,15 +41,15 @@ export default new Vuex.Store({
     DELETE_BODY(state, { id, isLocal }) {
       let body;
       if (isLocal) {
-        body = state.addedBodies.find(b => b.id !== id);
+        body = state.addedBodies.find(b => b.id === id);
         state.addedBodies = state.addedBodies.filter(b => b.id !== id);
       }
       else {
         body = state.bodies.find(b => b.id === id);
         body.isDeleted = true;
+        state.deletedIds.push(body.id);
       }
 
-      state.deletedIds.push(body.id);
       state.deletedBodies.push({ ...body });
     },
 
