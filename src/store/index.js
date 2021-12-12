@@ -64,13 +64,17 @@ export default new Vuex.Store({
       commit('SET_BODIES', filteredBodies);
     },
 
-    async loadBody({ commit, state }, { id, isLocal }) {
+    async loadBody({ commit }, id) {
+      const body = (await webClient.get(`/bodies/${id}`)).data;
+      commit('SET_BODY', Object.assign({}, body));
+    },
+    loadBodyFromLocal({ commit, state }, { id, isLocal }) {
       let body = {};
       if (isLocal) {
         body = state.addedBodies.find(b => b.id === id);
       }
       else {
-        body = (await webClient.get(`/bodies/${id}`)).data;
+        body = state.bodies.find(b => b.id === id);
       }
 
       commit('SET_BODY', Object.assign({}, body));
