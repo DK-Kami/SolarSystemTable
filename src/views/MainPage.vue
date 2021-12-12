@@ -42,11 +42,11 @@ import KDialog from '@/components/KDialog';
 import DialogForm from './DialogForm';
 
 const dataConfigure = [
-  { name: 'name',           type: 'text',     title: 'Имя космического объекта'},
-  { name: 'isPlanet',       type: 'checkbox', title: 'Является ли планетой'},
-  { name: 'discoveredBy',   type: 'text',     title: 'Кем открыта'},
-  { name: 'discoveryDate',  type: 'text',     title: 'Дата открытия'},
-  { name: 'actions',        type: 'none',     title: ''},
+  { name: 'name',           width: '20%',  type: 'text',     title: 'Имя космического объекта'},
+  { name: 'isPlanet',       width: '20%',  type: 'checkbox', title: 'Является ли планетой'},
+  { name: 'discoveredBy',   width: '20%',  type: 'text',     title: 'Кем открыта'},
+  { name: 'discoveryDate',  width: '20%',  type: 'text',     title: 'Дата открытия'},
+  { name: 'actions',        width: '20%',  type: 'none',     title: ''},
 ]
 
 export default {
@@ -83,7 +83,7 @@ export default {
 
   computed: {
     headers() {
-      return this.dataConfigure.map(({ name, title }) => ({ name, title }));
+      return this.dataConfigure.map(({ name, title, width }) => ({ name, title, width }));
     },
     formData() {
       return this.dataConfigure.filter(dc => dc.type !== 'none');

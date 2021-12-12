@@ -33,43 +33,39 @@
     <div class="table">
       <div class="table-head">
         <table>
-          <thead>
-            <tr class="head">
-              <slot name="headers" :headers="headers">
-                <th
-                  v-for="header in headers"
-                  :key="header.name"
-                  :style="`width: 20%`"
-                  class="table__header"
-                  @click="changeSort(header.name)"
-                >
-                  <slot :name="`header.${header.name}`" :header="header">
-                    {{ header.title }}
-                  </slot>
-                </th>
-              </slot>
-            </tr>
-          </thead>
+          <tr class="head">
+            <slot name="headers" :headers="headers">
+              <th
+                v-for="header in headers"
+                :key="header.name"
+                :style="`width: ${ header.width || 'auto'}`"
+                class="table__header"
+                @click="changeSort(header.name)"
+              >
+                <slot :name="`header.${header.name}`" :header="header">
+                  {{ header.title }}
+                </slot>
+              </th>
+            </slot>
+          </tr>
         </table>
       </div>
 
       <div class="table-body">
         <table>
-          <tbody>
-            <tr v-for="(row, index) in items" :key="index" class="table__items body">
-              <slot name="items">
-                <td
-                  v-for="header in headers"
-                  :key="header.name"
-                  :style="`width: 20%`"
-                >
-                  <slot :name="`item.${header.name}`" :item="row">
-                    {{ row[header.name] }}
-                  </slot>
-                </td>
-              </slot>
-            </tr>
-          </tbody>
+          <tr v-for="(row, index) in items" :key="index">
+            <slot name="items">
+              <td
+                v-for="header in headers"
+                :key="header.name"
+                :style="`width: ${ header.width || 'auto'}`"
+              >
+                <slot :name="`item.${header.name}`" :item="row">
+                  {{ row[header.name] }}
+                </slot>
+              </td>
+            </slot>
+          </tr>
         </table>
       </div>
     </div>
