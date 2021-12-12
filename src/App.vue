@@ -1,11 +1,16 @@
 <template>
   <div id="app">
-    <kami-table
+    <k-dialog v-model="dialog">
+      hui
+    </k-dialog>
+
+    <k-table
       :tableOptions.sync="tableOptions"
       :loading="loading"
       :headers="headers"
       :items="bodies"
       @refresh="loadBodies"
+      @add="openDialog"
     >
       <template #item.isPlanet="{ item }">
         {{ item.isPlanet ? '✓' : 'х' }}
@@ -15,12 +20,13 @@
         <button class="button button__primary">Edit</button>
         <button class="button button__primary" @click="deleteBody(item.id)">Delete</button>
       </template>
-    </kami-table>
+    </k-table>
   </div>
 </template>
 
 <script>
-import KamiTable from './components/KamiTable';
+import KTable from './components/KTable';
+import KDialog from './components/KDialog.vue';
 
 const headers = [
   { name: 'name',           title: 'Имя космического объекта'},
@@ -31,15 +37,20 @@ const headers = [
 ]
 
 export default {
-  components: { KamiTable },
   name: 'App',
+
+  components: {
+    KTable,
+    KDialog,
+  },
 
   created() {
     this.loadBodies();
   },
 
   data: () => ({
-    loading: true,
+    loading: true, // TODO сделать загрузку
+    dialog: true,
     headers,
 
     tableOptions: {
@@ -81,11 +92,14 @@ export default {
       this.loadBodies();
     },
 
+    openDialog() {
+      this.dialog = true;
+    },
   },
 };
 </script>
 
 <style lang="scss">
-
+@import 'styles/index.scss';
 
 </style>

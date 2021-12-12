@@ -1,6 +1,8 @@
 <template>
-  <div class="table__container">
-    <div class="table__actions">
+  <div class="table-container">
+
+    <!-- TODO Вынести отдельно -->
+    <div class="table-actions">
       <div>
         <label for="showArchived">Показать удаленные</label>
         <input type="checkbox" id="showArchived" />
@@ -8,7 +10,7 @@
 
       <div>
         <button :disabled="disablePrevButton" class="button button__primary button__circle" @click="paginateTo(page - 1)">ᐊ</button>
-        <div class="actions__text">{{ page }}</div>
+        <div class="actions-text">{{ page }}</div>
         <button :disabled="disableNextButton" class="button button__primary button__circle" @click="paginateTo(page + 1)">ᐅ</button>
 
         <select name="rowsPerPage" v-model="rowsPerPage" class="select">
@@ -20,7 +22,7 @@
         </select>
       </div>
 
-      <div>
+      <div @click="handleAdd">
         <button id="addButto" class="button button__primary button__circle">+</button>
         <label for="addButton">Добавить</label>
       </div>
@@ -74,7 +76,7 @@
 
 <script>
 export default {
-  name: 'KamiTable',
+  name: 'KTable',
 
   props: {
     tableOptions: {
@@ -132,6 +134,10 @@ export default {
       this.$emit('update:tableOptions', pagination);
     },
 
+    handleAdd() {
+      this.$emit('add');
+    },
+
     changeSort(name) {
       if (this.orderBy === name) {
         this.orderAsc = !this.orderAsc
@@ -160,14 +166,14 @@ export default {
 </script>
 
 <style lang="scss">
-.table__container {
+.table-container {
   display: flex;
   flex-flow: column wrap;
   width: 80%;
   margin: auto;
 }
 
-.table__actions {
+.table-actions {
   display: flex;
   justify-content: space-between;
   margin: 5px 0 20px;
@@ -181,7 +187,7 @@ export default {
     margin: 5px 20px;
   }
 }
-.actions__text {
+.actions-text {
   font-size: 15pt;
   padding: 10px 15px;
 }
