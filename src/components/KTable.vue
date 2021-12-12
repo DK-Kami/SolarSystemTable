@@ -4,7 +4,7 @@
     <!-- TODO Вынести отдельно -->
     <div class="table-actions">
       <div>
-        <slot name="before-action"></slot>        
+        <slot name="actions"></slot>        
       </div>
 
       <div>
@@ -19,10 +19,6 @@
             :key="pp"
           >{{ pp !== -1 ? pp : 'Все' }}</option>
         </select>
-      </div>
-
-      <div>
-        <slot name="after-action"></slot>        
       </div>
     </div>
 
