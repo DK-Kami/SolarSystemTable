@@ -4,6 +4,20 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: '/body/:id',
+    name: 'ViewPage',
+    component: () => import('@/views/ViewPage.vue'),
+  },
+  {
+    path: '/',
+    name: 'Main',
+    component: () => import('@/views/MainPage.vue'),
+  },
+  {
+    path: '/*',
+    redirect: '/',
+  },
 ];
 
 const router = new VueRouter({
