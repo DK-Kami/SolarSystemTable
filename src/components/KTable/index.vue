@@ -4,8 +4,7 @@
     <!-- TODO Вынести отдельно -->
     <div class="table-actions">
       <div>
-        <label for="showArchived">Показать удаленные</label>
-        <input type="checkbox" id="showArchived" />
+        <slot name="before-action"></slot>        
       </div>
 
       <div>
@@ -22,9 +21,8 @@
         </select>
       </div>
 
-      <div @click="handleAdd">
-        <button id="addButto" class="button button__primary button__circle">+</button>
-        <label for="addButton">Добавить</label>
+      <div>
+        <slot name="after-action"></slot>        
       </div>
     </div>
 
@@ -51,7 +49,7 @@
         </table>
       </div>
 
-      <div class="table-body none-scroll">
+      <div class="table-body">
         <table>
           <tbody>
             <tr v-for="(row, index) in items" :key="index" class="table__items body">
@@ -134,10 +132,6 @@ export default {
       this.$emit('update:tableOptions', pagination);
     },
 
-    handleAdd() {
-      this.$emit('add');
-    },
-
     changeSort(name) {
       if (this.orderBy === name) {
         this.orderAsc = !this.orderAsc
@@ -176,10 +170,12 @@ export default {
 .table-actions {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 5px 0 20px;
 
   div {
     display: flex;
+    align-items: center;
   }
 
   .select {
