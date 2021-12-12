@@ -5,7 +5,11 @@
     @click.self="closeDialog"
   >
     <div class="modal-content">
-      <span class="close" @click="closeDialog">&times;</span>
+      <div class="modal-actions">
+        <slot name="title">{{ title }}</slot>
+        <span class="close" @click="closeDialog">&times;</span>
+      </div>
+
       <slot></slot>
     </div>
   </div>
@@ -17,6 +21,7 @@ export default {
 
   props: {
     value: Boolean,
+    title: String,
   },
 
   methods: {
@@ -49,9 +54,9 @@ export default {
 .modal-content {
   background-color: #fefefe;
   margin: 15% auto;
-  padding: 20px;
+  padding: 50px;
   border: 1px solid #888;
-  width: 80%;
+  width: 40%;
 }
 
 .close {
