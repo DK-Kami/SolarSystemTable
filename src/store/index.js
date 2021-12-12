@@ -18,6 +18,7 @@ export default new Vuex.Store({
     bodies: [],
 
     deletedIds: [],
+    deletedBodies: [],
   },
 
   mutations: {
@@ -38,12 +39,18 @@ export default new Vuex.Store({
     },
 
     DELETE_BODY(state, { id, isLocal }) {
+      let body;
       if (isLocal) {
-        return state.addedBodies = state.addedBodies.filter(b => b.id !== id);
+        body = state.addedBodies.find(b => b.id !== id);
+        state.addedBodies = state.addedBodies.filter(b => b.id !== id);
+      }
+      else {
+        body = state.bodies.find(b => b.id === id);
+        body.isDeleted = true;
       }
 
-      state.deletedIds.push(id);
-      state.bodies.find(b => b.id === id).isDeleted = true;
+      state.deletedIds.push(body.id);
+      state.deletedBodies.push({ ...body });
     },
 
     CLEAN_CURRENT_BODY: state => state.body = initialBody(),
@@ -106,9 +113,7 @@ export default new Vuex.Store({
   },
   getters: {
     getCurrentBody: state => state.body,
-    getArchivedBodies: state => state.bodies.filter(body => body.isDeleted),
-    // getBodies: state => state.bodies.filter(body => !body.isDeleted),
-    // getAllBodies: state => state.bodies,
+    getArchivedBodies: state => state.deletedBodies,
     getBodies: state => [...state.bodies.filter(body => !body.isDeleted), ...state.addedBodies],
     getAllBodies: state => [...state.bodies, ...state.addedBodies],
   },

@@ -10,13 +10,12 @@
       @refresh="loadBodies"
       @add="openDialog"
     >
-
       <template #actions>
         <button id="addButton" class="button button__secondary button__outline" @click="handleCreate">Добавить</button>
 
         <div>
           <input v-model="isArchived" type="checkbox" id="showArchived" class="checkbox" />
-          <label for="showArchived" style="cursor: pointer; margin: 0 5px">{{ isArchived ? 'Скрыть удаленные' : 'Показать удаленные'}}</label>
+          <label for="showArchived" style="cursor: pointer; padding: 0 5px">{{ isArchived ? 'Скрыть удаленные' : 'Показать удаленные'}}</label>
         </div>
       </template>
 
@@ -25,9 +24,11 @@
       </template>
 
       <template #item.actions="{ item }">
-        <button :disabled="item.isLocal" class="button button__secondary" @click="handleView(item.id, item.isLocal)">Просмотр</button>
-        <button class="button button__secondary" @click="handleEdit(item.id, item.isLocal)">Редактировать</button>
-        <button class="button button__error" @click="handleDelete(item.id, item.isLocal)">Удалить</button>
+        <div v-if="!isArchived">
+          <button :disabled="item.isLocal" class="button button__secondary" @click="handleView(item.id, item.isLocal)">Просмотр</button>
+          <button class="button button__secondary" @click="handleEdit(item.id, item.isLocal)">Редактировать</button>
+          <button class="button button__error" @click="handleDelete(item.id, item.isLocal)">Удалить</button>
+        </div>
       </template>
     </k-table>
   </div>
@@ -63,7 +64,7 @@ export default {
     dataConfigure,
 
     isArchived: false,
-    loading: true, // TODO сделать загрузку
+    loading: false, // TODO сделать загрузку
     dialog: false,
 
     isEdit: false,
@@ -99,9 +100,10 @@ export default {
 
   methods: {
     async loadBodies() {
+      if (this.loading) return;
       this.loading = true;
-
       let page = '';
+
       if (this.tableOptions.rowsPerPage !== -1) {
         page = `${this.tableOptions.page},${this.tableOptions.rowsPerPage}`;
       }
@@ -110,6 +112,7 @@ export default {
         filter: this.tableOptions.filters,
         page,
       });
+
       this.loading = false;
     },
 
@@ -132,8 +135,6 @@ export default {
       this.isEdit = false;
       this.openDialog();
     },
-
-
 
     openDialog() {
       this.dialog = true;
