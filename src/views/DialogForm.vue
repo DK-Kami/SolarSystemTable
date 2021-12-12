@@ -41,6 +41,7 @@ export default {
         return this.value;
       },
       set(newVal) {
+        if (!newVal) this.cleanCurrentBody();
         this.$emit('input', newVal);
       },
     },
@@ -71,7 +72,6 @@ export default {
   
     createBody() {
       this.$store.dispatch('addBody');
-      this.cleanCurrentBody();
     },
     editBody() {
       this.$store.dispatch('editBody');

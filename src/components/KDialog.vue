@@ -4,13 +4,15 @@
     class="modal"
     @click.self="closeDialog"
   >
-    <div class="modal-content">
+    <div class="modal-card">
       <div class="modal-actions">
         <slot name="title">{{ title }}</slot>
         <span class="close" @click="closeDialog">&times;</span>
       </div>
 
-      <slot></slot>
+      <div class="modal-content">
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -42,28 +44,39 @@ export default {
   height: 100%;
   overflow: auto;
   background-color: rgba(0,0,0,0.4);
-}
-.modal__show {
-  display: block;
-}
-.modal__hiddden {
-  display: none;
+
+  &__show {
+    display: block;
+  }
+  &__hiddden {
+    display: none;
+  }
 }
 
-
-.modal-content {
+.modal-card {
   background-color: #fefefe;
-  margin: 15% auto;
-  padding: 50px;
   border: 1px solid #888;
+  margin: 15% auto;
   width: 40%;
-}
 
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+  .modal-actions {
+    padding: 20px 30px 10px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 28px;
+
+    .close {
+      color: #aaa;
+      font-size: 40px;
+      font-weight: bold;
+    }
+  }
+
+  .modal-content {
+    padding: 20px 30px 40px 30px;
+    font-size: 18px;
+  }
 }
 
 .close:hover,
