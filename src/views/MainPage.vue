@@ -1,24 +1,6 @@
 <template>
   <div id="app">
-    <k-dialog
-      v-model="dialog"
-      :title="currentTitle"
-    >
-      <div class="form">
-        <div
-          v-for="input in formData"
-          :key="input.name"
-          class="form-item"
-        >
-          <label for="planetName">{{ input.title }}</label>
-          <input v-model="currentBody[input.name]" :type="input.type">
-        </div>
-
-        <div class="form-actions">
-          <button class="button" @click="handleSubmit">{{ currentButtonTitle }}</button>
-        </div>
-      </div>
-    </k-dialog>
+    <dialog-form v-model="dialog" :is-edit="isEdit" :form-data="formData" />
 
     <k-table
       :tableOptions.sync="tableOptions"
@@ -28,12 +10,13 @@
       @refresh="loadBodies"
       @add="openDialog"
     >
-      <template #before-action>
-        <label for="showArchived">Показать удаленные</label>
-        <input v-model="isArchived" type="checkbox" id="showArchived" />
-      </template>
 
-      <template #after-action>
+      <template #actions>
+        <div>
+          <label for="showArchived">Показать удаленные</label>
+          <input v-model="isArchived" type="checkbox" id="showArchived" />
+        </div>
+
         <div @click="handleCreate">
           <button id="addButto" class="button button__primary button__circle">+</button>
           <label for="addButton">Добавить</label>
@@ -55,7 +38,8 @@
 
 <script>
 import KTable from '@/components/KTable';
-import KDialog from '@/components/KDialog.vue';
+import KDialog from '@/components/KDialog';
+import DialogForm from './DialogForm';
 
 const dataConfigure = [
   { name: 'name',           type: 'text',     title: 'Имя космического объекта'},
@@ -69,8 +53,9 @@ export default {
   name: 'MainPage',
 
   components: {
-    KTable,
+    DialogForm,
     KDialog,
+    KTable,
   },
 
   created() {
@@ -113,17 +98,6 @@ export default {
     getCurrentBodies() {
       return this.isArchived ? this.getArchivedBodies : this.bodies;
     },
-
-    currentBody() {
-      return this.$store.getters['getCurrentBody'];
-    },
-
-    currentTitle() {
-      return this.isEdit ? 'Редактирование объекта' : 'Добавление объекта';
-    },
-    currentButtonTitle() {
-      return this.isEdit ? 'Редактировать' : 'Добавить';
-    },
   },
 
   methods: {
@@ -144,7 +118,7 @@ export default {
 
     async handleEdit(id, isLocal) {
       this.isEdit = true;
-      await this.$store.dispatch('loadBody', { id, isLocal });
+      await this.$store.dispatch('loadBodyFromLocal', { id, isLocal });
       this.openDialog();
     },
     handleView(id) {
@@ -159,27 +133,10 @@ export default {
     },
     handleCreate() {
       this.isEdit = false;
-      this.cleanCurrentBody();
       this.openDialog();
     },
-    handleSubmit() {
-      if (this.isEdit) {
-        return this.editBody();
-      }
-      return this.createBody();
-    },
 
-    createBody() {
-      this.$store.dispatch('addBody');
-      this.cleanCurrentBody();
-    },
-    editBody() {
-      this.$store.dispatch('editBody');
-    },
 
-    cleanCurrentBody() {
-      this.$store.dispatch('cleanCurrentBody');
-    },
 
     openDialog() {
       this.dialog = true;
