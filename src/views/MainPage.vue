@@ -18,7 +18,7 @@
         </div>
 
         <div @click="handleCreate">
-          <button id="addButto" class="button button__primary button__circle">+</button>
+          <button id="addButto" class="button button__secondary button__circle">+</button>
           <label for="addButton">Добавить</label>
         </div>
       </template>

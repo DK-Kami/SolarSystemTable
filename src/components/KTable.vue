@@ -10,13 +10,13 @@
       <div>
         <button
           :disabled="disablePrevButton"
-          class="button button__primary button__circle"
+          class="button button__secondary button__circle"
           @click="paginateTo(page - 1)"
         >ᐊ</button>
         <div class="actions-text">{{ page }}</div>
         <button
           :disabled="disableNextButton"
-          class="button button__primary button__circle"
+          class="button button__secondary button__circle"
           @click="paginateTo(page + 1)"
         >ᐅ</button>
 
@@ -172,10 +172,12 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin: 5px 0 20px;
+  font-size: 18px;
 
   div {
     display: flex;
     align-items: center;
+    padding: 0 10px;
   }
 
   .select {

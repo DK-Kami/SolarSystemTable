@@ -63,3 +63,11 @@ div:focus {
 .button__primary {
   background-color: $primary-color;
 }
+.button__secondary {
+  background-color: $secondary-color;
+}
+.table-head {
+  th {
+    background-color: $secondary-color;
+  }
+}
