@@ -22,7 +22,7 @@
         <div class="form-item">
           <label for="planetName">Поиск</label>
           <div class="input-block">
-            <input v-model="search" type="text" placeholder="Поиск по имени">
+            <input v-model="search" type="text" placeholder="Имя космического объекта">
           </div>
         </div>
       </template>
