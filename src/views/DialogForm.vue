@@ -10,7 +10,9 @@
         class="form-item"
       >
         <label for="planetName">{{ input.title }}</label>
-        <input v-model="currentBody[input.name]" :type="input.type">
+        <div class="input-block">
+          <input v-model="currentBody[input.name]" :type="input.type" :placeholder="input.title">
+        </div>
       </div>
 
       <div class="form-actions">
@@ -60,6 +62,7 @@ export default {
 
   methods: {
     handleSubmit() {
+      if (!this.currentBody.name) return;
       if (this.isEdit) {
         this.editBody();
       }

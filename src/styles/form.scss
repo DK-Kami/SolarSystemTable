@@ -1,0 +1,48 @@
+/** FORM */
+.form {
+  .form-item {
+    display: flex;
+    // flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+
+    .input-block {
+      min-width: 200px;
+      text-align: left;
+    }
+  }
+
+  .form-actions {
+    padding: 40px 0 0 0;
+  }
+}
+
+/** INPUT */
+input[type="text"],
+input[type="checkbox"] {
+  line-height: 1.8;
+}
+
+/** SELECT */
+select {
+  cursor: pointer;
+  position: relative;
+  font-size: 16px;
+  color: $select-color;
+  height: 35px;
+}
+.select {
+  background-color: $background;
+  padding: 0 10px;
+  &:hover {
+    background-color: darken($background, 2);
+  }
+  &:active, &.active {
+    background-color: darken($background, 5);
+    &:after {
+      top: 9px;
+      border-color: transparent transparent $select-color transparent;
+    }
+  }
+}

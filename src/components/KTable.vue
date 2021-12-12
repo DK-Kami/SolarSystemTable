@@ -8,9 +8,17 @@
       </div>
 
       <div>
-        <button :disabled="disablePrevButton" class="button button__primary button__circle" @click="paginateTo(page - 1)">ᐊ</button>
+        <button
+          :disabled="disablePrevButton"
+          class="button button__primary button__circle"
+          @click="paginateTo(page - 1)"
+        >ᐊ</button>
         <div class="actions-text">{{ page }}</div>
-        <button :disabled="disableNextButton" class="button button__primary button__circle" @click="paginateTo(page + 1)">ᐅ</button>
+        <button
+          :disabled="disableNextButton"
+          class="button button__primary button__circle"
+          @click="paginateTo(page + 1)"
+        >ᐅ</button>
 
         <select name="rowsPerPage" v-model="rowsPerPage" class="select">
           <option
@@ -50,7 +58,7 @@
           <tbody>
             <tr v-for="(row, index) in items" :key="index" class="table__items body">
               <slot name="items">
-                <td 
+                <td
                   v-for="header in headers"
                   :key="header.name"
                   :style="`width: 20%`"

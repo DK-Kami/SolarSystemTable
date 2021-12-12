@@ -57,7 +57,7 @@ export default {
   background-color: #fefefe;
   border: 1px solid #888;
   margin: 15% auto;
-  width: 40%;
+  width: 30%;
 
   .modal-actions {
     padding: 20px 30px 10px 50px;
