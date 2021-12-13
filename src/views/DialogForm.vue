@@ -43,7 +43,6 @@ export default {
         return this.value;
       },
       set(newVal) {
-        if (!newVal) this.cleanCurrentBody();
         this.$emit('input', newVal);
       },
     },

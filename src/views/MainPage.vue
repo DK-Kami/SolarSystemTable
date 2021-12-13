@@ -136,11 +136,15 @@ export default {
     },
     handleCreate() {
       this.isEdit = false;
+      this.cleanCurrentBody();
       this.openDialog();
     },
 
     openDialog() {
       this.dialog = true;
+    },
+    cleanCurrentBody() {
+      this.$store.dispatch('cleanCurrentBody');
     },
   },
 
