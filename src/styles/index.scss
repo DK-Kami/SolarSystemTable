@@ -79,3 +79,8 @@ div:focus {
   background-color: $error-color;
   border-color: $error-color;
 }
+
+.table,
+.card {
+  @include box-shadow;
+}

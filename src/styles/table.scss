@@ -1,21 +1,15 @@
 /** TABLE */
 table {
   width: 100%;
-  border-spacing: 0
+  border-spacing: 0;
 }
 
 .table {
   background-color: #fff;
   position: relative;
   padding-top: 60px;
-
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
-  -webkit-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
-  -o-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
-  -ms-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
   
   .table-body tr:nth-child(even) {
     background-color: #f8f6ff;

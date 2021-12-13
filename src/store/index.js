@@ -73,7 +73,7 @@ export default new Vuex.Store({
 
     async loadBody({ commit }, id) {
       const body = (await webClient.get(`/bodies/${id}`)).data;
-      commit('SET_BODY', Object.assign({}, body));
+      commit('SET_BODY', { ...body });
     },
     loadBodyFromLocal({ commit, state }, { id, isLocal }) {
       let body = {};
@@ -84,7 +84,7 @@ export default new Vuex.Store({
         body = state.bodies.find(b => b.id === id);
       }
 
-      commit('SET_BODY', Object.assign({}, body));
+      commit('SET_BODY',  { ...body });
     },
 
     addBody({ commit, state }) {
@@ -112,9 +112,9 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    getCurrentBody: state => state.body,
-    getArchivedBodies: state => state.deletedBodies,
     getBodies: state => [...state.bodies.filter(body => !body.isDeleted), ...state.addedBodies],
     getAllBodies: state => [...state.bodies, ...state.addedBodies],
+    getArchivedBodies: state => state.deletedBodies,
+    getCurrentBody: state => state.body,
   },
 });
